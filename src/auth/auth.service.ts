@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users } from 'src/user/user.entity';
@@ -10,19 +10,23 @@ export class AuthService {
     constructor(
         @InjectModel(Users.name) private userModel:Model<Users>
     ){}
-    async createUser(userBody:RegisterDto):Promise<any>{
+    async createUser(userBody:RegisterDto):Promise<Users>{
        try {
        let userExists:RegisterDto
        userExists = await this.userModel.findOne({email:userBody.email})
        if (userExists){
-        throw new Error("User already exists please login")
+        throw new ConflictException("user already exists")
        }
 
-       await this.userModel.create(userBody);
+      const newUser =  await this.userModel.create(userBody);
 
-       return "Success"
+       return newUser;
        } catch (error) {
-        throw new InternalServerErrorException("failed to register user")
+        // throw new InternalServerErrorException("failed to register user")
+        if (!(error instanceof ConflictException)) {
+            throw new InternalServerErrorException('Failed to register user');
+          }
+          throw error;
        }
     }
 }
