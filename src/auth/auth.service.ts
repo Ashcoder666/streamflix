@@ -5,14 +5,17 @@ import { Users } from 'src/user/user.entity';
 import { Model } from 'mongoose';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 
 export class AuthService {
     constructor(
-        @InjectModel(Users.name) private userModel:Model<Users>
+        @InjectModel(Users.name) private userModel:Model<Users>,
+        private readonly jwtService: JwtService,
     ){}
-    async createUser(userBody:RegisterDto):Promise<Users>{
+    
+    async createUser(userBody:RegisterDto):Promise<any>{
        try {
        let userExists:RegisterDto
        userExists = await this.userModel.findOne({email:userBody.email})
@@ -30,9 +33,10 @@ export class AuthService {
       
       await newUser.save()
 
-       return newUser;
+      const { password, ...userWithoutPassword } = newUser.toObject();
+    return userWithoutPassword;
        } catch (error) {
-        // throw new InternalServerErrorException("failed to register user")
+   
         if (!(error instanceof ConflictException)) {
             throw new InternalServerErrorException('Failed to register user');
           }
@@ -46,6 +50,14 @@ export class AuthService {
         return emailRegex.test(value);
       }
 
+    private generateAccessToken(user:Users){
+        const payload = {...user}
+        return this.jwtService.signAsync(payload,{
+            secret: process.env.ACCESS_TOKEN_SECRET,
+            expiresIn: "30d",
+        })
+    }
+
     async userLogin(loginDetails:LoginDto){
         try {
             let userExists:Users
@@ -57,16 +69,23 @@ export class AuthService {
             }
 
             if(!userExists){
-                throw new NotFoundException
+                throw new NotFoundException("user don't exist")
             }
 
             if(!userExists.isEmailVerified){
-                throw new ForbiddenException
+                throw new ForbiddenException("please verify email to login")
             }
+
+            const token  =  this.generateAccessToken(userExists)
+
+            return token
 
 
         } catch (error) {
-            
+            if (!(error instanceof NotFoundException) && !(error instanceof ForbiddenException)) {
+                throw new InternalServerErrorException('Failed to login');
+              }
+              throw error;
         }
     }
 }

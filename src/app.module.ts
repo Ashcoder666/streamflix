@@ -8,12 +8,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import * as dotenv from 'dotenv';
+import { JwtModule } from '@nestjs/jwt';
 
 dotenv.config();
 
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGODB_URL),AuthModule, UserModule],
+  imports: [MongooseModule.forRoot(process.env.MONGODB_URL),AuthModule, UserModule,JwtModule],
   controllers: [AppController, AuthController, UserController],
   providers: [AppService, AuthService],
 })
