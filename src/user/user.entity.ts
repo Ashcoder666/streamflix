@@ -3,22 +3,22 @@ import { Document } from "mongoose";
 
 @Schema()
 export class Users extends Document{
-    @Prop()
+    @Prop({ required: true })
     firstname:string
 
-    @Prop()
+    @Prop({ required: true })
     lastname:string
 
-    @Prop()
+    @Prop({ required: true , unique:true })
     username:string
 
-    @Prop()
+    @Prop({ required: true , unique:true})
     email:string
 
-    @Prop()
+    @Prop({ required: true })
     password:string
 
-    @Prop()
+    @Prop({ default: true })
     isEmailVerified?:boolean
 }
 
