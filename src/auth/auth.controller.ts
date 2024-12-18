@@ -24,6 +24,6 @@ async userLogin(@Body() loginDto:LoginDto):Promise<{message:string,token:string}
 
     const token = await this.authService.userLogin(loginDto)
 
-    return {message:"Success",token}
+    return {message:"Success",token }
 }
 }

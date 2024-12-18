@@ -20,6 +20,20 @@ export class Users extends Document{
 
     @Prop({ default: true })
     isEmailVerified?:boolean
+
+    // is_creator_approved
+    // is_blocked
+    // status
+    //consumer_account_status
+    //creator account status
+    //selected_account
+
+
+    //channel module need to be added 
+    // catrgory module
+    // content module
+    
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

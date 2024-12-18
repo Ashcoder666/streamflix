@@ -1,6 +1,9 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsString } from "class-validator";
 
-
+enum UserType {
+   CREATOR = 'creator',
+   CONSUMER = 'consumer'
+  }
 export class RegisterDto {
     @IsNotEmpty()
     @IsString()
@@ -21,4 +24,13 @@ export class RegisterDto {
     @IsNotEmpty()
     @IsString()
     password
+
+    @IsNotEmpty()
+    @IsEnum(UserType)
+    user_type
+
+   // user can switch betweeen consumer and creator 
+
+
+
 }
