@@ -10,3 +10,9 @@ export class LoginDto {
     @IsString()
     password
 }
+
+// export class SendVerificationDto{
+//     @IsNotEmpty()
+//     @IsString()
+//     email
+// }

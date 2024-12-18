@@ -6,12 +6,16 @@ import { Model } from 'mongoose';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { randomBytes } from 'crypto';
+import { RequestLogs } from 'src/common/requestLog.entity';
 
 @Injectable()
 
 export class AuthService {
     constructor(
         @InjectModel(Users.name) private userModel: Model<Users>,
+        @InjectModel(RequestLogs.name) private readonly logModel: Model<RequestLogs>,
+
         private readonly jwtService: JwtService,
     ) { }
 
@@ -98,4 +102,25 @@ export class AuthService {
             throw error;
         }
     }
+
+    private generateRandomToken(): string {
+        return randomBytes(32).toString('hex')
+    }
+    async sendVerificationMail(email: string) {
+        // mimicking sending a mail to this email
+        // but im just returning the link
+        // save a token to a collection in db along with email 
+        const token = this.generateRandomToken()
+        const link = `auth/email/verify/${token}`
+
+    }
+
+    async verifyUserWithMail(token: string) {
+        // when someone calls that api endpoint , this service will trigger 
+        // and update user email verify status
+    }
+
+
 }
+
+

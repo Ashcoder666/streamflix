@@ -3,13 +3,16 @@ import { RegisterDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
 import { Users } from 'src/user/user.entity';
 import { LoginDto } from './dto/login.dto';
+import { ApiTags, ApiOperation, } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('streamflix/auth')
 export class AuthController {
     constructor(
         private readonly authService:AuthService
     ){}
 @Post('register')
+@ApiOperation({ summary: 'Register a new user' })
 @HttpCode(HttpStatus.CREATED)
 async userRegistration(@Body() registerDto:RegisterDto):Promise<{message:string,data:Users}>{
     const newUser = await this.authService.createUser(registerDto)
