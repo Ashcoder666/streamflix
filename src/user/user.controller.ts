@@ -1,4 +1,11 @@
-import { Controller } from '@nestjs/common';
+import { Controller,Post } from '@nestjs/common';
 
-@Controller('user')
-export class UserController {}
+@Controller('streamflix/user')
+
+export class UserController {
+
+    @Post('personalisation')
+async createUserPersonalization(){
+    
+}
+}
