@@ -7,14 +7,12 @@ import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
-import { RequestLogs } from 'src/common/requestLog.entity';
 
 @Injectable()
 
 export class AuthService {
     constructor(
         @InjectModel(Users.name) private userModel: Model<Users>,
-        @InjectModel(RequestLogs.name) private readonly logModel: Model<RequestLogs>,
 
         private readonly jwtService: JwtService,
     ) { }
