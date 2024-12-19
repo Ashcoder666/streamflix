@@ -1,10 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty, IsString } from "class-validator";
 
-enum UserType {
-   CREATOR = 'creator',
-   CONSUMER = 'consumer'
-  }
 export class RegisterDto {
     @ApiProperty()
     @IsNotEmpty()
@@ -31,10 +27,10 @@ export class RegisterDto {
     @IsString()
     password
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsEnum(UserType)
-    user_type 
+   //  @ApiProperty()
+   //  @IsNotEmpty()
+   //  @IsEnum(UserType)
+   //  user_type 
 
    // user can switch betweeen consumer and creator 
 

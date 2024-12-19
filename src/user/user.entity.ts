@@ -1,6 +1,17 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
+
+type CreatorAccountDetails = {
+    _id: Types.ObjectId,
+    channel_name: string,
+    status:boolean,
+}
+
+enum UserType {
+    CREATOR = 'creator',
+    CONSUMER = 'consumer'
+   }
 @Schema()
 export class Users extends Document{
     @Prop({ required: true })
@@ -21,12 +32,18 @@ export class Users extends Document{
     @Prop({ default: true })
     isEmailVerified?:boolean
 
-    // is_creator_approved
-    // is_blocked
-    // status
-    //consumer_account_status
-    //creator account status
-    //selected_account
+    @Prop({default : null , type:Object})
+    creatorAccount: CreatorAccountDetails | null
+
+    @Prop({ default: UserType.CONSUMER })
+    current_userType: UserType;    
+
+    @Prop({default:false})
+    isBlocked:boolean
+
+    @Prop({default:true})
+    status:boolean
+  
 
 
     //channel module need to be added 
