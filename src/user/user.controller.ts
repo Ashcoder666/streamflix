@@ -4,7 +4,7 @@ import { Controller,Post } from '@nestjs/common';
 
 export class UserController {
 
-    @Post('personalisation')
+@Post('personalisation')
 async createUserPersonalization(){
     
 }
