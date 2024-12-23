@@ -19,7 +19,7 @@ export class UserService {
           ...data, 
         });
     
-        return await newPersonalizationConfig.save(); // Save and return the document
+        return await newPersonalizationConfig.save(); 
       }
     }
 

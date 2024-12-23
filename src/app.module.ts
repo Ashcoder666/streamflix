@@ -20,7 +20,12 @@ dotenv.config();
 
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGODB_URL),AuthModule, UserModule,JwtModule, RequestLoggerModule,
+  imports: [MongooseModule.forRoot(process.env.MONGODB_URL),AuthModule, UserModule,
+JwtModule.register({
+  secret: process.env.ACCESS_TOKEN_SECRET,
+  // expiresIn: "30d",
+}),
+RequestLoggerModule,
     MongooseModule.forFeature([{ name: RequestLogs.name, schema: RequestLogSchema }]),
   ],
   controllers: [AppController, AuthController, UserController],

@@ -59,10 +59,7 @@ export class AuthService {
 
     private generateAccessToken(user: Users) {
         const payload = { ...user }
-        return this.jwtService.signAsync(payload, {
-            secret: process.env.ACCESS_TOKEN_SECRET,
-            expiresIn: "30d",
-        })
+        return this.jwtService.signAsync(payload, )
     }
 
     async userLogin(loginDetails: LoginDto) {
