@@ -16,7 +16,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     ]);
 
     if (isPublic) {
-      return true; // Skip guard for public routes
+      return true; 
     }
 
     return super.canActivate(context) as Promise<boolean>;

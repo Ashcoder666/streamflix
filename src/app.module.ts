@@ -15,6 +15,7 @@ import { RequestLoggerService } from './request-logger/request-logger.service';
 import { RequestLoggerMiddleware } from './common/middlewares/logger-middleware';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { UserService } from './user/user.service';
 
 dotenv.config();
 
@@ -29,10 +30,10 @@ RequestLoggerModule,
     MongooseModule.forFeature([{ name: RequestLogs.name, schema: RequestLogSchema }]),
   ],
   controllers: [AppController, AuthController, UserController],
-  providers: [{
+  providers: [AppService, AuthService,RequestLoggerService,UserService,{
     provide: APP_GUARD,
     useClass: JwtAuthGuard,
-  },AppService, AuthService,RequestLoggerService],
+  }],
 })
 
 export class AppModule implements NestModule {

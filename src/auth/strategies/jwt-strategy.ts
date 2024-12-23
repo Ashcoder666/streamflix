@@ -13,18 +13,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),  // Extract JWT from Authorization header
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'yourSecretKey',  // Secret key from environment variables
+      secretOrKey: process.env.ACCESS_TOKEN_SECRET ,  
     });
   }
 
   async validate(payload: any) {
-    console.log('Decoded Payload:', payload);  // Log the decoded payload for debugging
-    const user = await this.userModel.findById(payload.userId);  // Adjust based on your database logic
+    // console.log('JWT Payload:', payload); 
+    // console.log(payload)
+    if (!payload._doc || !payload._doc._id) {
+      console.log('Invalid token payload');
+      throw new UnauthorizedException('Invalid token');
+    }
+    const user = await this.userModel.findById(payload._doc._id);  
     if (!user) {
       throw new UnauthorizedException();
     }
+    // console.log(user)
     return user;  // Return the user, which will be attached to the request object
+    // return payload;
   }
 }
