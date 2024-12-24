@@ -61,6 +61,7 @@ export class AuthService {
         const payload = { ...user }
         return this.jwtService.signAsync(payload, )
     }
+    
 
     async userLogin(loginDetails: LoginDto) {
         try {
@@ -113,6 +114,23 @@ export class AuthService {
     async verifyUserWithMail(token: string) {
         // when someone calls that api endpoint , this service will trigger 
         // and update user email verify status
+    }
+
+    async adminLogin(username:string,password:string){
+        if(username != "streamAdmin" || password != "qwerty1234"){
+            throw new ForbiddenException("INVALID USERNAME OR PASSWORD")
+        }
+
+        const adminUser = {
+            username: 'streamAdmin',
+            USER_TYPE: 'ADMIN',
+            _id: 'adminId', 
+        }
+
+        const payload = { ...adminUser }
+        return this.jwtService.signAsync(payload, )
+
+       
     }
 
 

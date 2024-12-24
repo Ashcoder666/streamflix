@@ -17,7 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { UserService } from './user/user.service';
 import { CategoryModule } from './category/category.module';
-
+import { RolesGuard } from './auth/guards/roles.guard';
 dotenv.config();
 
 
@@ -34,8 +34,12 @@ RequestLoggerModule,
   controllers: [AppController, AuthController, UserController],
   providers: [AppService, AuthService,RequestLoggerService,UserService,{
     provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  }],
+    useClass: JwtAuthGuard, 
+  },
+  {
+    provide: APP_GUARD,
+    useClass: RolesGuard, 
+  },],
 })
 
 export class AppModule implements NestModule {
@@ -43,4 +47,5 @@ export class AppModule implements NestModule {
     consumer.apply(RequestLoggerMiddleware).forRoutes('*');
   }
 }
+
 

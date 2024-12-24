@@ -43,6 +43,9 @@ export class Users extends Document{
 
     @Prop({default:true})
     status:boolean
+
+    @Prop({default:"USER"})
+    USER_TYPE:string
   
 
 

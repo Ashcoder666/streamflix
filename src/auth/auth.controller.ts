@@ -31,4 +31,16 @@ async userLogin(@Body() loginDto:LoginDto):Promise<{message:string,token:string}
 
     return {message:"Success",token }
 }
+
+@Public()
+@Post('admin/login')
+@HttpCode(HttpStatus.ACCEPTED)
+async adminLogin(@Body() adminloginDto:{username:string,password:string}):Promise<{message:string,token:string}>{
+
+    const token = await this.authService.adminLogin(adminloginDto.username,adminloginDto.password)
+
+    return {message:"Success",token }
 }
+}
+
+

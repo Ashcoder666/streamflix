@@ -3,6 +3,7 @@ import { UserPersonalizationDto } from './dto/user-personalisation.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Public } from 'src/common/public/public.decorator';
 import { UserService } from './user.service';
+import { Roles } from 'src/common/roles/roles.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('streamflix/user')
@@ -11,6 +12,7 @@ export class UserController {
     constructor(
         private readonly userService:UserService
     ){}
+    @Roles("USER")
     @Post('personalisation')
     async createUserPersonalization(@Body() userPersonalisationDto: UserPersonalizationDto,
      @Request() req: any,) {
