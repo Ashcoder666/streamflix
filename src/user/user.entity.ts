@@ -12,7 +12,7 @@ enum UserType {
     CREATOR = 'creator',
     CONSUMER = 'consumer'
    }
-@Schema()
+@Schema({ timestamps: true })
 export class Users extends Document{
     @Prop({ required: true })
     firstname:string
